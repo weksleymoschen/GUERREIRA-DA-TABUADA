@@ -1,24 +1,22 @@
-# Guerreiras do Keypop — Jornada das Tabuadas
+# Guerreiras do Keypop — Jornada das Tabuadas | Mobile
 
-Versão online pronta para GitHub Pages.
-
-## Publicar
-1. Crie um repositório no GitHub.
-2. Envie **todos os arquivos desta pasta para a raiz** do repositório.
-3. Abra **Settings → Pages**.
-4. Em **Build and deployment**, selecione **Deploy from a branch**.
-5. Selecione `main` e `/ (root)` e salve.
-6. O GitHub mostrará o endereço público do jogo.
+Versão final otimizada para **celular e tablet** e pronta para GitHub Pages.
 
 ## Recursos
-- Avatares individuais feitos a partir da imagem fornecida pelo usuário.
-- Jornada das tabuadas 2–10.
+- 3 avatares separados das guerreiras.
+- Jornada das tabuadas de 2 a 10.
 - 15 segundos por tentativa.
-- O aluno só avança após acertar.
-- Música instrumental original e efeitos.
-- Show comemorativo ao concluir cada tabuada.
-- Responsivo para celular/tablet.
-- Service Worker para cache offline após uma primeira abertura online.
-- Sem dependências externas: adequado ao GitHub Pages.
+- O estudante só avança quando acerta.
+- Música e efeitos sonoros gerados no próprio navegador.
+- Vibração curta em aparelhos compatíveis.
+- Show ao concluir cada tabuada: trio animado, palco, lasers, luzes, confetes e jingle.
+- Interface touch, retrato e paisagem.
+- Sem bibliotecas externas.
+- Cache offline após a primeira abertura online, enquanto o navegador mantiver os dados do site.
+- Não exige instalação.
 
-WM Jogos Educativos
+## GitHub Pages
+Envie todos os arquivos para a raiz de um repositório.
+Depois: **Settings → Pages → Deploy from a branch → main → /(root) → Save**.
+
+O endereço gerado pelo GitHub Pages é o link que você compartilha com os alunos.

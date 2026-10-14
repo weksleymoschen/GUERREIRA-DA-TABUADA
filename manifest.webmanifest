@@ -1,13 +1,13 @@
 {
-  "name": "Guerreiras do Keypop — Batalha da Tabuada",
+  "name": "Guerreiras do Keypop — Jornada das Tabuadas",
   "short_name": "Keypop Tabuada",
   "id": "./",
   "start_url": "./index.html",
   "scope": "./",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#0c0620",
   "theme_color": "#13072e",
-  "orientation": "landscape",
+  "orientation": "any",
   "description": "Jogo educativo instalável e offline de tabuada — WM Jogos Educativos",
   "icons": [
     {
