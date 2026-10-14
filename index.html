@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#13072e"><meta name="description" content="Jogo educativo de tabuada — WM Jogos Educativos">
+<title>Guerreiras do Keypop — Batalha da Tabuada</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0c0620;color:#fff;overflow:hidden}
+body{background:radial-gradient(circle at 20% 10%,#4c1d95 0,#1d0a3d 32%,#08051a 72%);touch-action:manipulation}
+#app{height:100%;display:flex;align-items:center;justify-content:center;padding:10px}
+.screen{display:none;width:min(100%,1100px);height:min(100%,720px);border:1px solid #ffffff25;border-radius:26px;background:linear-gradient(145deg,#160b35dd,#09051bdd);box-shadow:0 25px 80px #0008;overflow:auto;padding:24px;position:relative}
+.screen.active{display:block}.logo{font-weight:1000;letter-spacing:.5px}.brand{position:absolute;right:20px;top:16px;font-weight:900;font-size:13px;opacity:.8}
+.hero{text-align:center;padding:5vh 3vw 2vh}.hero h1{font-size:clamp(34px,7vw,78px);margin:5px 0;background:linear-gradient(90deg,#ff58d0,#8d7cff,#56e7ff);-webkit-background-clip:text;color:transparent;text-shadow:0 0 28px #ff45c944}
+.hero p{font-size:clamp(15px,2vw,21px);opacity:.88}.panel{max-width:760px;margin:auto;background:#ffffff0d;border:1px solid #ffffff20;border-radius:22px;padding:18px}
+input,select{width:100%;padding:15px;border-radius:14px;border:1px solid #ffffff2b;background:#0a0622;color:white;font-size:17px;margin:7px 0 13px}
+button{border:0;border-radius:16px;padding:14px 18px;font-size:17px;font-weight:900;color:white;background:linear-gradient(90deg,#d62ac7,#6557ff);box-shadow:0 8px 25px #9f38ff45;cursor:pointer}
+button:active{transform:scale(.97)}.secondary{background:#ffffff14;box-shadow:none;border:1px solid #ffffff25}
+.warriors{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 18px}.warrior{padding:13px;background:#ffffff0b;border:2px solid transparent;border-radius:20px;text-align:center}
+.warrior.selected{border-color:#59e9ff;background:#5be9ff16}.avatar{height:120px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:64px;background:linear-gradient(160deg,#fa52c933,#56e7ff22)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row>*{flex:1}.topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;position:sticky;top:-24px;background:#10072de8;backdrop-filter:blur(8px);padding:12px 0;z-index:3}
+.badge{background:#ffffff12;border:1px solid #ffffff20;border-radius:999px;padding:9px 13px;font-weight:800}.arena{text-align:center;padding:10px}
+.enemy{font-size:70px;filter:drop-shadow(0 0 18px #ff3ea5);animation:float 1.7s ease-in-out infinite}@keyframes float{50%{transform:translateY(-8px)}}
+.question{font-size:clamp(45px,9vw,92px);font-weight:1000;margin:10px 0}.answers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:760px;margin:16px auto}.ans{font-size:clamp(25px,5vw,46px);padding:24px 8px;background:linear-gradient(145deg,#26125c,#4c258f)}
+.feedback{min-height:48px;font-size:24px;font-weight:1000}.good{color:#73ffb4}.bad{color:#ff7c9e}.bar{height:14px;background:#ffffff18;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#57e7ff,#ff55ce);transition:.3s}
+.visual{min-height:70px;display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:8px}.dot{width:16px;height:16px;border-radius:50%;background:#69e9ff;box-shadow:0 0 8px #69e9ff}
+.timerWrap{max-width:760px;margin:10px auto 2px}.timerText{font-weight:1000;font-size:20px;margin-bottom:5px}.timerBar{height:12px;background:#ffffff18;border-radius:99px;overflow:hidden}.timerBar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#65f7c5,#ffe15c,#ff5d91);transition:width .1s linear}.urgent{animation:pulse .45s infinite}@keyframes pulse{50%{transform:scale(1.05);filter:brightness(1.4)}}.world{font-weight:900;color:#8eefff}.result{text-align:center}.result h2{font-size:48px;margin:10px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}.stat{background:#ffffff10;padding:18px 8px;border-radius:18px}.stat b{display:block;font-size:28px}
+.small{opacity:.75;font-size:13px}.install{position:absolute;left:18px;top:14px;display:none;padding:8px 12px;font-size:13px}
+@media(max-width:650px){#app{padding:0}.screen{border-radius:0;height:100%;padding:15px}.warriors{gap:7px}.avatar{height:90px;font-size:48px}.answers{gap:8px}.ans{padding:20px 4px}.stats{grid-template-columns:repeat(2,1fr)}.brand{right:12px}.topbar{top:-15px}.hero{padding-top:9vh}}
+
+.rewardOverlay{display:none;position:absolute;inset:0;z-index:20;background:#08051aee;align-items:center;justify-content:center;padding:18px}
+.rewardOverlay.show{display:flex}.rewardCard{width:min(94%,620px);text-align:center;background:linear-gradient(145deg,#2a1055,#13072e);border:1px solid #ffffff35;border-radius:28px;padding:24px;overflow:hidden}
+.dancers{display:flex;justify-content:center;gap:28px;font-size:76px;margin:10px 0}.dancer{display:inline-block;animation:dance .35s ease-in-out infinite alternate}.dancer:nth-child(2){animation-delay:.16s}@keyframes dance{to{transform:translateY(-13px) rotate(8deg) scale(1.06)}}.notes{font-size:30px;letter-spacing:12px;animation:notes .7s linear infinite}@keyframes notes{50%{transform:translateY(-7px)}}.rewardTitle{font-size:28px;font-weight:1000}.rewardSub{opacity:.85}.timeoutChoice{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+
+.huntrixHero{width:min(92%,520px);max-height:240px;object-fit:contain;border-radius:22px;margin:8px auto 14px;display:block;filter:drop-shadow(0 0 22px #a855f766)}
+.huntrixBattle{width:min(68%,360px);max-height:185px;object-fit:contain;border-radius:20px;margin:4px auto;display:block;animation:battleMove .8s ease-in-out infinite alternate;transform-origin:center bottom}
+@keyframes battleMove{0%{transform:translateX(-8px) rotate(-1deg)}100%{transform:translateX(8px) translateY(-5px) rotate(1deg)}}
+.rewardHuntrix{width:min(96%,480px);max-height:260px;object-fit:contain;border-radius:22px;animation:rewardDance .32s ease-in-out infinite alternate;transform-origin:center bottom}
+@keyframes rewardDance{0%{transform:translateY(0) rotate(-1.5deg) scale(1)}100%{transform:translateY(-11px) rotate(1.5deg) scale(1.025)}}
+
+.rewardCard{position:relative}.stageLights{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 20% 10%,#ff5bc733 0,transparent 28%),radial-gradient(circle at 80% 10%,#5deaff33 0,transparent 28%);animation:lights .45s alternate infinite}@keyframes lights{to{filter:hue-rotate(70deg);opacity:.7}}
+.rewardHuntrix{position:relative;z-index:2;animation:groupDance .28s ease-in-out infinite alternate!important}@keyframes groupDance{0%{transform:translateX(-7px) translateY(0) rotate(-1.2deg) scale(1)}100%{transform:translateX(7px) translateY(-12px) rotate(1.2deg) scale(1.035)}}
+
+.photoAvatar{overflow:hidden;position:relative;background:#160b35}
+.photoAvatar img{width:100%;height:100%;object-fit:cover;object-position:center top;position:absolute;inset:0}
+.warrior{cursor:pointer;user-select:none}.warrior.selected{border-color:#7ef4ff!important;box-shadow:0 0 0 3px #7ef4ff55 inset,0 0 22px #7ef4ff55}.warrior.selected:after{content:"✓ ESCOLHIDA";display:block;margin-top:7px;font-size:11px;font-weight:1000;color:#8ff6ff}
+#formError{min-height:22px;color:#ff9ab7;font-weight:800;text-align:center}
+</style>
+</head>
+<body><div id="app">
+<section id="start" class="screen active">
+<button id="install" class="install secondary">⬇ Instalar offline</button><div class="brand">WM JOGOS EDUCATIVOS</div>
+<div class="hero"><div class="logo">⚔️ 🎤 ✨</div><img class="huntrixHero" src="guerreiras-palco.png" alt="Guerreiras K-pop fornecidas pelo usuário"><h1>GUERREIRAS DO KEYPOP</h1><p>Jornada das Tabuadas • Acerte, conquiste fases e desbloqueie shows especiais!</p></div>
+<div class="panel">
+<label>Nome do estudante</label><input id="name" maxlength="18" placeholder="Digite seu nome">
+<div class="warriors">
+<div class="warrior selected" data-w="Guerreira 1"><div class="avatar photoAvatar"><img src="avatar1.jpg" alt="Guerreira 1"></div><b>GUERREIRA 1</b><div class="small">Golpe Neon</div></div>
+<div class="warrior" data-w="Guerreira 2"><div class="avatar photoAvatar"><img src="avatar2.jpg" alt="Guerreira 2"></div><b>GUERREIRA 2</b><div class="small">Pulso Estelar</div></div>
+<div class="warrior" data-w="Guerreira 3"><div class="avatar photoAvatar"><img src="avatar3.jpg" alt="Guerreira 3"></div><b>GUERREIRA 3</b><div class="small">Ritmo Relâmpago</div></div>
+</div>
+<div class="row"><select id="mode"><option value="2">Tabuada do 2</option><option value="3">Tabuada do 3</option><option value="4">Tabuada do 4</option><option value="5">Tabuada do 5</option><option value="6">Tabuada do 6</option><option value="7">Tabuada do 7</option><option value="8">Tabuada do 8</option><option value="9">Tabuada do 9</option><option value="10">Tabuada do 10</option><option value="journey" selected>🏆 Jornada Completa — tabuadas 2 a 10</option><option value="mix">⚡ Desafio misto</option></select><button id="go">COMEÇAR MISSÃO ▶</button></div>
+<div id="formError" aria-live="polite"></div><p class="small">Funciona com toque. Depois de instalado, o jogo abre sem internet no celular ou tablet.</p>
+</div></section>
+
+<section id="game" class="screen"><div class="brand">WM JOGOS EDUCATIVOS</div>
+<div class="topbar"><span class="badge" id="player">Jogador</span><span class="badge">⭐ <span id="score">0</span></span><span class="badge">🔥 x<span id="combo">0</span></span><button class="secondary" id="sound">🔊</button></div>
+<div class="arena"><div class="world" id="world">CIDADE NEON • FASE 1</div><div class="bar"><i id="hp"></i></div><img class="huntrixBattle" src="huntrix-user.png" alt="Guerreiras em batalha"><div class="enemy" id="enemy">👾</div><div class="small" id="mission">Toque no cristal correto para atacar!</div><div class="timerWrap"><div class="timerText" id="timerText">⏱️ 15 s</div><div class="timerBar"><i id="timerFill"></i></div></div><div class="question" id="q">6 × 7</div><div class="visual" id="visual"></div><div class="answers" id="answers"></div><div class="feedback" id="feedback"></div></div>
+<div id="reward" class="rewardOverlay" aria-live="polite"><div class="rewardCard"><div class="stageLights"></div><div class="notes">♪ ✦ ♫ ✨</div><div class="dancers"><img class="rewardHuntrix" src="guerreiras-palco.png" alt="Guerreiras comemorando"></div><div class="rewardTitle" id="rewardTitle">SHOW DAS GUERREIRAS! 🎤</div><p class="rewardSub" id="rewardMsg">Você desbloqueou uma apresentação especial!</p><button id="rewardContinue">CONTINUAR MISSÃO ▶</button></div></div>
+</section>
+
+<section id="end" class="screen"><div class="brand">WM JOGOS EDUCATIVOS</div><div class="result"><div style="font-size:70px">🏆✨</div><h2>MISSÃO CONCLUÍDA!</h2><p id="finalName"></p><div class="stats"><div class="stat"><b id="sCorrect">0</b>Acertos</div><div class="stat"><b id="sAcc">0%</b>Precisão</div><div class="stat"><b id="sCombo">0</b>Maior combo</div><div class="stat"><b id="sTime">0:00</b>Tempo</div></div><div class="panel"><b>Mapa de aprendizagem</b><p id="mastered"></p><p id="practice"></p></div><br><button id="again">JOGAR NOVAMENTE ↻</button></div></section>
+</div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let warrior="Guerreira 1", questions=[],idx=0,correct=0,wrong=0,combo=0,maxCombo=0,score=0,startTime=0,errors={},audioOn=true,deferredPrompt;
+let timerId=null,timeLeft=15,musicCtx=null,musicTimer=null,musicStep=0;
+const worlds=["CIDADE NEON","PALCO ESTELAR","ARENA DO RITMO","TORRE FINAL"], enemies=["👾","👹","🤖","🐉"];
+function tone(freq,d=.08,vol=.035,type="sine"){
+ if(!audioOn)return;
+ let A=musicCtx||(musicCtx=new (window.AudioContext||window.webkitAudioContext)());
+ let o=A.createOscillator(),g=A.createGain();o.type=type;o.frequency.value=freq;g.gain.value=vol;
+ o.connect(g);g.connect(A.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,A.currentTime+d);o.stop(A.currentTime+d)
+}
+function beep(freq=500,d=.08){tone(freq,d,.04,"sine")}
+function startMusic(){
+ if(!audioOn||musicTimer)return;
+ musicCtx=musicCtx||(new (window.AudioContext||window.webkitAudioContext)());
+ if(musicCtx.state==="suspended")musicCtx.resume();
+ // Trilha instrumental ORIGINAL inspirada em pop coreano eletrônico, sem usar música protegida.
+ const bass=[110,110,146.83,164.81,98,98,130.81,146.83];
+ const lead=[440,523.25,659.25,523.25,392,493.88,587.33,493.88];
+ musicTimer=setInterval(()=>{
+   let s=musicStep++%16, beat=s%4;
+   if(beat===0) tone(bass[Math.floor(s/2)%bass.length],.16,.025,"square");
+   tone(lead[Math.floor(s/2)%lead.length],.07,.012,"triangle");
+   if(beat===0||beat===2) tone(75,.06,.035,"sine");
+   if(beat===1||beat===3) tone(1800,.025,.012,"square");
+ },220)
+}
+function stopMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null}}
+function startTimer(){
+ clearInterval(timerId);timeLeft=15;$("#timerText").textContent="⏱️ 15 s";$("#timerText").classList.remove("urgent");$("#timerFill").style.width="100%";
+ timerId=setInterval(()=>{
+   timeLeft-=.1; let shown=Math.max(0,Math.ceil(timeLeft));
+   $("#timerText").textContent="⏱️ "+shown+" s";$("#timerFill").style.width=Math.max(0,timeLeft/15*100)+"%";
+   if(timeLeft<=5)$("#timerText").classList.add("urgent");
+   if(timeLeft<=0){clearInterval(timerId);timeoutQuestion()}
+ },100)
+}
+function timeoutQuestion(){
+ wrong++;combo=0;let [a,b]=questions[idx];errors[a]=(errors[a]||0)+1;
+ $("#combo").textContent=combo;$("#feedback").className="feedback bad";
+ $("#feedback").textContent="TEMPO ESGOTADO! ⏰ Observe a resposta: "+(a*b)+". Você precisa acertar para avançar.";
+ $$(".ans").forEach(x=>x.disabled=true);beep(180,.22);
+ $("#visual").innerHTML=Array.from({length:Math.min(a*b,50)},()=>'<i class="dot"></i>').join("");
+ setTimeout(()=>{ $$(".ans").forEach(x=>x.disabled=false); $("#feedback").textContent="Agora tente novamente! 💪"; startTimer(); },1200)
+}
+$$(".warrior").forEach(x=>x.onclick=()=>{$$(".warrior").forEach(y=>y.classList.remove("selected"));x.classList.add("selected");warrior=x.dataset.w;beep(700)});
+function build(){let m=$("#mode").value,arr=[];if(m==="journey"){for(let a=2;a<=10;a++){for(let b=1;b<=10;b++)arr.push([a,b]);}return arr}for(let i=0;i<24;i++){let a=m==="mix"?2+Math.floor(Math.random()*9):+m,b=1+Math.floor(Math.random()*10);arr.push([a,b])}return arr}
+$("#go").onclick=()=>{
+ const n=$("#name").value.trim();
+ if(!n){$("#formError").textContent="Digite o nome do estudante para começar.";$("#name").focus();return}
+ $("#formError").textContent="";
+ try{
+   questions=build();idx=correct=wrong=combo=maxCombo=score=0;errors={};startTime=Date.now();
+   $("#player").textContent=n+" • "+warrior;
+   $("#start").classList.remove("active");$("#game").classList.add("active");
+   startMusic();render();beep(800,.15)
+ }catch(e){console.error(e);$("#formError").textContent="Não foi possível iniciar. Recarregue a página e tente novamente."}
+}
+function render(){if(idx>=questions.length)return finish();let [a,b]=questions[idx],ans=a*b,journey=$("#mode").value==="journey",phase=journey?Math.min(3,Math.floor((a-2)/3)):Math.min(3,Math.floor(idx/6));$("#world").textContent=(journey?"TABUADA DO "+a+" • MISSÃO "+(a-1):worlds[phase]+" • FASE "+(phase+1));$("#enemy").textContent=enemies[phase];$("#q").textContent=a+" × "+b;$("#mission").textContent=idx<6?"Escolha o cristal correto!":idx<12?"Mantenha o combo musical!":idx<18?"Ataque rápido na arena!":"Derrote o chefão final!";$("#hp").style.width=(100-(idx%6)*16)+"%";$("#visual").innerHTML="";
+if(wrong>0 && idx>0){ } let opts=new Set([ans]);while(opts.size<3){let v=Math.max(1,ans+(Math.floor(Math.random()*7)-3)*a);if(v!==ans)opts.add(v)}let list=[...opts].sort(()=>Math.random()-.5);$("#answers").innerHTML=list.map(v=>`<button class="ans" data-v="${v}">💎 ${v}</button>`).join("");$$(".ans").forEach(btn=>btn.onclick=()=>answer(+btn.dataset.v,a,b,ans));$("#feedback").textContent="";startTimer()}
+
+function rewardJingle(){
+ if(!audioOn)return;
+ const melody=[659.25,783.99,880,987.77,1046.5,987.77,880,783.99,659.25,880,1046.5,1318.5];
+ melody.forEach((f,i)=>setTimeout(()=>tone(f,.14,.045,i%2?"triangle":"sine"),i*115));
+}
+function confettiBurst(){
+ const card=$("#reward .rewardCard");
+ for(let i=0;i<28;i++){let s=document.createElement("span");s.textContent=["✨","⭐","💜","🎵","✦"][i%5];s.style.position="absolute";s.style.left=(5+Math.random()*90)+"%";s.style.top=(5+Math.random()*70)+"%";s.style.fontSize=(14+Math.random()*18)+"px";s.style.pointerEvents="none";card.appendChild(s);setTimeout(()=>s.remove(),1800)}
+}
+function showReward(tableDone){
+ stopMusic();clearInterval(timerId);
+ $("#rewardTitle").textContent=tableDone?"🏆 TABUADA DO "+tableDone+" CONCLUÍDA!":"🎤 SHOW DAS GUERREIRAS!";
+ $("#rewardMsg").textContent=tableDone?$("#name").value+", você dominou a tabuada do "+tableDone+"! Hora do show!":$("#name").value+", acerto perfeito! Show das Guerreiras desbloqueado!";
+ $("#reward").classList.add("show");rewardJingle();confettiBurst();
+}
+$("#rewardContinue").addEventListener("click",()=>{$("#reward").classList.remove("show");startMusic();render()});
+function answer(v,a,b,ans){clearInterval(timerId);$$(".ans").forEach(x=>x.disabled=true);if(v===ans){correct++;combo++;maxCombo=Math.max(maxCombo,combo);score+=100+combo*10;$("#feedback").className="feedback good";$("#feedback").textContent=["PERFEITO! ⚡","ARRASOU! ✨","COMBO KEYPOP! 🎵","GOLPE NEON! 💥"][Math.floor(Math.random()*4)];beep(900,.12);let completedTable=a;idx++;let journey=$("#mode").value==="journey";if(journey && b===10 && idx<questions.length){setTimeout(()=>showReward(completedTable),450)}else if(!journey && correct%4===0 && idx<questions.length){setTimeout(()=>showReward(null),450)}else{setTimeout(render,550)}}else{wrong++;combo=0;errors[a]=(errors[a]||0)+1;$("#feedback").className="feedback bad";$("#feedback").textContent="Quase! Você só avança quando acertar. Veja a pista e tente de novo.";beep(220,.15);$("#visual").innerHTML=Array.from({length:Math.min(ans,50)},()=>'<i class="dot"></i>').join("");setTimeout(()=>{$$(".ans").forEach(x=>x.disabled=false);$("#feedback").textContent="Tente outra vez! 💪";startTimer()},700)}$("#score").textContent=score;$("#combo").textContent=combo}
+function finish(){clearInterval(timerId);stopMusic();$("#game").classList.remove("active");$("#end").classList.add("active");let total=correct+wrong,acc=Math.round(correct/Math.max(1,total)*100),sec=Math.floor((Date.now()-startTime)/1000);$("#finalName").textContent=$("#mode").value==="journey"?$("#name").value+", você venceu a Jornada das Tabuadas do 2 ao 10!":$("#name").value+", a Cidade Neon está segura!";$("#sCorrect").textContent=correct;$("#sAcc").textContent=acc+"%";$("#sCombo").textContent=maxCombo;$("#sTime").textContent=Math.floor(sec/60)+":"+String(sec%60).padStart(2,"0");let bad=Object.keys(errors).sort((a,b)=>errors[b]-errors[a]);$("#mastered").textContent=acc>=85?"🌟 Excelente domínio durante a missão.":"⭐ Você avançou bem e pode melhorar ainda mais.";$("#practice").textContent=bad.length?"🎯 Treine mais as tabuadas: "+bad.join(", ")+".":"🎯 Nenhuma tabuada se destacou em erros. Excelente!";beep(1000,.25)}
+$("#again").onclick=()=>location.reload();$("#sound").onclick=()=>{audioOn=!audioOn;$("#sound").textContent=audioOn?"🔊":"🔇";if(audioOn)startMusic();else stopMusic()};
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;$("#install").style.display="block"});$("#install").onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}}
+if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js");
+</script></body></html>

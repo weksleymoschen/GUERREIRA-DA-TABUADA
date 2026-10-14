@@ -1,0 +1,16 @@
+GUERREIRAS DO KEYPOP — LINK COM USO OFFLINE
+
+A versão foi preparada para publicação em Netlify/GitHub Pages.
+
+REGRAS DESTA VERSÃO
+- Música instrumental original com clima K-pop.
+- Efeitos sonoros.
+- 15 segundos por tentativa.
+- O estudante NÃO passa para a próxima multiplicação se errar ou se o tempo acabar.
+- Após erro/tempo, recebe pista e tenta novamente.
+- A cada 4 acertos, desbloqueia uma apresentação curta de dois personagens dançando com um jingle ORIGINAL.
+- Não usa trecho de música comercial/protegida.
+- Após a primeira abertura online, o navegador armazena os arquivos essenciais para permitir reabertura offline, enquanto o cache do navegador for mantido.
+- Não é necessário instalar aplicativo.
+
+Para compartilhar por UM LINK, publique esta pasta em HTTPS (Netlify ou GitHub Pages) e envie o endereço aos alunos.

@@ -1,0 +1,23 @@
+GUERREIRAS DO KEYPOP — COMO COMPARTILHAR E USAR OFFLINE
+
+IMPORTANTE:
+Para instalar como aplicativo offline no celular/tablet, o jogo precisa ser aberto uma primeira vez por um endereço HTTPS.
+Depois da instalação, ele funciona sem internet.
+
+OPÇÃO MAIS SIMPLES — NETLIFY
+1. Extraia este ZIP no computador.
+2. Publique a pasta no Netlify (arrastando a pasta do jogo para o deploy).
+3. Compartilhe o link https gerado.
+4. No celular Android, abra o link no Chrome.
+5. Toque no botão “Instalar offline” quando aparecer, ou no menu ⋮ > “Adicionar à tela inicial/Instalar app”.
+6. Abra o jogo uma vez conectado.
+7. Depois disso, desligue Wi‑Fi/dados e abra pelo ícone na tela inicial: o jogo continuará funcionando.
+
+IPHONE/IPAD
+1. Abra o link no Safari.
+2. Toque em Compartilhar.
+3. Escolha “Adicionar à Tela de Início”.
+4. Abra o jogo uma primeira vez com internet.
+5. Depois poderá ser usado offline pelo ícone criado.
+
+O arquivo ZIP não vira sozinho um aplicativo instalável ao ser enviado pelo WhatsApp. O método acima é o mais simples para compartilhar com professores/alunos sem precisar publicar um APK na loja.
